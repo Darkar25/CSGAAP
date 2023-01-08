@@ -1,0 +1,28 @@
+﻿<Window x:Class="CSGAAP.GUI.AuthorEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CSGAAP.GUI"
+        mc:Ignorable="d"
+        DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}"
+        Title="Edit Author" Height="450" Width="800">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="8" HorizontalAlignment="Center">
+            <Button Content="Ok" Click="Button_Click"/>
+            <Button Content="Cancel" Margin="8,0,0,0" Click="Button_Click_1"/>
+        </StackPanel>
+        <Label Content="Author"/>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <Button Content="Add Document" Click="Button_Click_2"/>
+            <Button Content="Remove Document" Margin="8,0,0,0" Click="Button_Click_3"/>
+        </StackPanel>
+        <TextBox Name="author" Text="{Binding Author}" DockPanel.Dock="Top" Margin="0,8,8,8"/>
+        <DataGrid ItemsSource="{Binding Documents}" x:Name="unknowndocuments" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Filepath" Width="*" Binding="{Binding URI}" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

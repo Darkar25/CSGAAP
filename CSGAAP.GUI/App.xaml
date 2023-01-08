@@ -1,0 +1,30 @@
+﻿<Application x:Class="CSGAAP.GUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CSGAAP.GUI"
+             xmlns:csgaap.backend="clr-namespace:CSGAAP.Backend;assembly=CSGAAP"
+             xmlns:csgaap.util="clr-namespace:CSGAAP.Util;assembly=CSGAAP"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <csgaap.backend:Canonicizers x:Key="canonicizers"/>
+        <csgaap.backend:Languages x:Key="languages"/>
+        <csgaap.backend:EventDrivers x:Key="eventdrivers"/>
+        <csgaap.backend:EventCullers x:Key="eventcullers"/>
+        <csgaap.backend:AnalysisDrivers x:Key="analysisdrivers"/>
+        <csgaap.backend:DistanceFunctions x:Key="distancefunctions"/>
+        <ObjectDataProvider MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}"
+                    x:Key="DocTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="csgaap.util:DocumentType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="8,4,8,4"/>
+        </Style>
+    </Application.Resources>
+</Application>
