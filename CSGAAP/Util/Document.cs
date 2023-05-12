@@ -1,8 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Text;
 using CSGAAP.Generics;
 
 namespace CSGAAP.Util
@@ -18,9 +14,10 @@ namespace CSGAAP.Util
             }
         }
         public bool IsKnownAuthor => Author is not null;
-        public string Title { get; } = "";
+        public string Title { get; }
         public Uri? URI { get; init; }
-        public string Text { get; private set; } = "";
+        public string Text => TextMemory.ToString();
+        public ReadOnlyMemory<char> TextMemory { get; private set; }
         public DocumentType Type { get; init; }
         public Dictionary<EventDriver, EventSet> EventSets { get; } = new();
         public Dictionary<AnalysisDriver, IEnumerable<KeyValuePair<string, double>>> Results { get; } = new();
@@ -48,17 +45,13 @@ namespace CSGAAP.Util
         {
             var data = URI is null ? Array.Empty<byte>() : await Utils.LoadData(URI, token);
             if (data.Length == 0) throw new Exception($"Document: {URI!.GetFileName()} was empty.");
-            Text = lang.ParseDocument(lang.Charset.GetString(data));
+            TextMemory = new(lang.ParseDocument(lang.Charset.GetString(data)).ToCharArray());
         }
-
-        public string Stringify() => new(Text);
 
         public void Canonicize(IEnumerable<Canonicizer> canonicizers)
         {
-            var text = Text;
-            foreach (var canon in canonicizers)
-                text = canon.Process(text);
-            Text = text;
+            var text = canonicizers.Aggregate(Text, (current, canon) => canon.Process(current));
+            TextMemory = new(text.ToCharArray());
         }
 
         public override string ToString() => Title + "(" + (Author ?? "unknown") + ")";

@@ -1,7 +1,5 @@
 ﻿using CSGAAP.Generics;
 using CSGAAP.Util;
-using StructLinq;
-using System.Text.RegularExpressions;
 
 namespace CSGAAP.EventDrivers
 {
@@ -10,9 +8,17 @@ namespace CSGAAP.EventDrivers
         public override string DisplayName => "Words";
         public override string ToolTipText => "Words (White Space as Separators)";
 
-        public override EventSet CreateEventSet(string text) => new(WhiteSpaceSplitRegex().Split(text.ToString()).ToStructEnumerable().Where(x => !string.IsNullOrWhiteSpace(x), x => x).Select(x => new Event(x, this), x => x).ToEnumerable());
-
-        [GeneratedRegex("\\s+")]
-        private static partial Regex WhiteSpaceSplitRegex();
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(CreateEventSetInternal(text));
+        public IEnumerable<Event> CreateEventSetInternal(ReadOnlyMemory<char> text)
+        {
+            var lastSpace = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (!" \n\t\r".Contains(text.Span[i])) continue;
+                if (i - lastSpace >= 1) yield return new(text[lastSpace..i], this);
+                lastSpace = i + 1;
+            }
+            if(text.Length - lastSpace >= 1) yield return new(text[lastSpace..].TrimEnd(), this);
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace CSGAAP.Generics
             Event[] arrset = set.ToArray();
 
             for (var i = 0; i + n <= arrset.Length; i++)
-                events.Add(new("[" + string.Join(", ", arrset[i..(i + n)]) + "]", this));
+                events.Add(new(new ReadOnlyMemory<char>(("[" + string.Join(", ", arrset[i..(i + n)]) + "]").ToCharArray()), this));
 
             return new(events);
         }

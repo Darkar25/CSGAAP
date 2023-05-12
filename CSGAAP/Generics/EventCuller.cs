@@ -1,9 +1,4 @@
-﻿using CSGAAP.Util;
-using StructLinq;
-using StructLinq.IEnumerable;
-using System.Collections;
-
-namespace CSGAAP.Generics
+﻿namespace CSGAAP.Generics
 {
     public abstract class EventCuller : Parameterizable, IDisplayable, IComparable<EventCuller>
     {

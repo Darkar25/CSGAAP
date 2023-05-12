@@ -15,8 +15,7 @@ namespace CSGAAP.Backend
         public static Language GetLanguage(string action)
         {
             var tmp = action.Split('|', 2);
-            var inst = List.SingleOrDefault(x => x.DisplayName.Trim().Equals(tmp[0].Trim(), StringComparison.InvariantCultureIgnoreCase));
-            if (inst is null) throw new Exception($"Language {tmp[0]} not found!");
+            var inst = List.SingleOrDefault(x => x.DisplayName.Trim().Equals(tmp[0].Trim(), StringComparison.InvariantCultureIgnoreCase)) ?? throw new Exception($"Language {tmp[0]} not found!");
             var copy = Activator.CreateInstance(inst.GetType()) as Language;
             return copy!;
         }

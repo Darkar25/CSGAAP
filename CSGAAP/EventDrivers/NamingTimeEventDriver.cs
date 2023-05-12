@@ -25,20 +25,19 @@ namespace CSGAAP.EventDrivers
             if (e.PropertyName == "Language") PropertyChanged?.Invoke(this, new(nameof(ShowInGUI)));
         }
 
-        private static Dictionary<string, string> NamingTimes { get; } = Encoding.Default.GetString(Resources.ELPnaming)
+        private static Dictionary<string, ReadOnlyMemory<char>> NamingTimes { get; } = Encoding.Default.GetString(Resources.ELPnaming)
             .Split('\n', StringSplitOptions.RemoveEmptyEntries)
             .Where(x => !x.StartsWith('#'))
             .Select(x => x.Split("/", StringSplitOptions.RemoveEmptyEntries))
-            .ToDictionary(x => x[0], x => x[1]);
+            .ToDictionary(x => x[0], x => new ReadOnlyMemory<char>(x[1].ToCharArray()));
 
-        public override EventSet CreateEventSet(string text) => new(InternalCreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(InternalCreateEventSet(text));
 
-        private IEnumerable<Event> InternalCreateEventSet(string text)
+        private IEnumerable<Event> InternalCreateEventSet(ReadOnlyMemory<char> text)
         {
             foreach (var w in base.CreateEventSet(text))
                 if (NamingTimes.TryGetValue(w.ToString(), out var o))
                     yield return new(o, this);
-            yield break;
         }
     }
 }

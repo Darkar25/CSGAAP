@@ -1,7 +1,6 @@
 ﻿using CSGAAP.Generics;
 using CSGAAP.Util;
 using StructLinq;
-using StructLinq.IEnumerable;
 
 namespace CSGAAP.Distances
 {

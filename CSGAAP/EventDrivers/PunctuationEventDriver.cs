@@ -1,6 +1,5 @@
 ﻿using CSGAAP.Generics;
 using CSGAAP.Util;
-using StructLinq;
 
 namespace CSGAAP.EventDrivers
 {
@@ -9,6 +8,15 @@ namespace CSGAAP.EventDrivers
         public override string DisplayName => "Punctuation";
         public override string ToolTipText => "Non alphanumeric nor whitspace";
 
-        public override EventSet CreateEventSet(string text) => new(text.ToStructEnumerable().Where(x => !(char.IsLetterOrDigit(x) || char.IsNumber(x)), x => x).Select(x => new Event(x.ToString(), this), x => x).ToEnumerable());
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(CreateEventSetInternal(text));
+        public IEnumerable<Event> CreateEventSetInternal(ReadOnlyMemory<char> text)
+        {
+            for(int i = 0;i < text.Length;i++)
+            {
+                var c = text.Span[i];
+                if (!(char.IsLetterOrDigit(c) || char.IsNumber(c)))
+                    yield return new(text[i..(i+1)], this);
+            }
+        }
     }
 }

@@ -127,7 +127,7 @@ namespace CSGAAP.Backend
                     ct.ThrowIfCancellationRequested();
                     try
                     {
-                        d.EventSets.Add(ed, ed.CreateEventSet(d.Text));
+                        d.EventSets.Add(ed, ed.CreateEventSet(d.TextMemory));
                     }
                     catch (EventGenerationException e)
                     {

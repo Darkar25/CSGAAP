@@ -67,20 +67,22 @@ namespace CSGAAP.Backend
                         else
                         {
                             var tmp2 = e.Split('#', 2);
-                            if(tmp2.Length > 1)
-                                experiment.EventDrivers.Add(EventDrivers.GetEventDriver(tmp2[0].Trim()));
-                            else
-                                experiment.EventDrivers.Add(EventDrivers.GetEventDriver(e.Trim()));
+                            experiment.EventDrivers.Add(tmp2.Length > 1
+                                ? EventDrivers.GetEventDriver(tmp2[0].Trim())
+                                : EventDrivers.GetEventDriver(e.Trim()));
                         }
                     }
                     var analysisdriver = AnalysisDrivers.GetAnalysisDriver(analysis);
-                    if(analysisdriver.SupportsDistance && string.IsNullOrWhiteSpace(distance))
+                    switch (analysisdriver.SupportsDistance)
                     {
-                        Log.Error($"AnalysisDriver {analysisdriver.DisplayName} in the experiment {filename} requires a distance function, but none was supplied");
-                        return;
+                        case true when string.IsNullOrWhiteSpace(distance):
+                            Log.Error($"AnalysisDriver {analysisdriver.DisplayName} in the experiment {filename} requires a distance function, but none was supplied");
+                            return;
+                        case true:
+                            analysisdriver.Distance = DistanceFunctions.GetDistanceFunction(distance);
+                            break;
                     }
-                    if (analysisdriver.SupportsDistance)
-                        analysisdriver.Distance = DistanceFunctions.GetDistanceFunction(distance);
+
                     if(experiment.Execute().Result)
                         File.AppendAllText(filename, experiment.FormattedResult());
                 } catch(Exception e)

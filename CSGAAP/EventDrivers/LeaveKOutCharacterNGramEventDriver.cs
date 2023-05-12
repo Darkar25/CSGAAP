@@ -8,6 +8,6 @@ namespace CSGAAP.EventDrivers
 
         public override string ToolTipText => "Leave out all permutations k characters from a word gram of size n";
 
-        public override EventSet CreateEventSet(string text) => TransformEventSet(new CharacterEventDriver().CreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => TransformEventSet(new CharacterEventDriver().CreateEventSet(text));
     }
 }

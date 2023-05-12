@@ -22,13 +22,12 @@ namespace CSGAAP.EventDrivers
                 41, 42, 43, 44, 45, 46, 47, 48, 49, 50);
         }
 
-        public override EventSet CreateEventSet(string text) => new(CreateEventSetInternal(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(CreateEventSetInternal(text));
 
-        private IEnumerable<Event> CreateEventSetInternal(string text)
+        private IEnumerable<Event> CreateEventSetInternal(ReadOnlyMemory<char> text)
         {
             int n = (int)this["N"];
-            for (int i = 0; i <= text.Length - n; i++) yield return new(text[i..(i + n)].ToString(), this);
-            yield break;
+            for (int i = 0; i <= text.Length - n; i++) yield return new(text[i..(i + n)], this);
         }
     }
 }

@@ -2,13 +2,6 @@
 using StructLinq;
 using StructLinq.Array;
 using StructLinq.IEnumerable;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CSGAAP.Util
 {
@@ -19,18 +12,15 @@ namespace CSGAAP.Util
         public static double StdDev<TEnumerator>(this IStructEnumerable<double, TEnumerator> values) where TEnumerator : struct, IStructEnumerator<double>
         {
             int count = values.Count(x => x);
-            if (count > 1)
-            {
-                //Compute the Average
-                double avg = values.Sum() / count;
+            if (count <= 1) return 0;
+            //Compute the Average
+            double avg = values.Sum() / count;
 
-                //Perform the Sum of (value-avg)^2
-                double sum = values.Select(d => (d - avg) * (d - avg)).Sum(x => x);
+            //Perform the Sum of (value-avg)^2
+            double sum = values.Select(d => (d - avg) * (d - avg)).Sum(x => x);
 
-                //Put it all together
-                return Math.Sqrt(sum / (count - 1));
-            }
-            return 0;
+            //Put it all together
+            return Math.Sqrt(sum / (count - 1));
         }
 
         public static double Average<TEnumerator>(this IStructEnumerable<double, TEnumerator> values) where TEnumerator : struct, IStructEnumerator<double> => values.Sum(x => x) / values.Count(x => x);

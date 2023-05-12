@@ -188,6 +188,7 @@ namespace CSGAAP.GUI
         private void Button_Click_22(object sender, RoutedEventArgs e)
         {
             ProcessingProgressWindow ppd = new(Instance);
+            ppd.Owner = this;
             if (ppd.ShowDialog() == true)
             {
                 results[DateTime.Now] = Instance.FormattedResult();

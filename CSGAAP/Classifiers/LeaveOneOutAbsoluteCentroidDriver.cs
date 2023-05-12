@@ -27,14 +27,15 @@ namespace CSGAAP.Classifiers
             }
             catch (DistanceCalculationException e)
             {
-                throw new AnalyzeException($"Distance Method {Distance.DisplayName} has failed");
+                throw new AnalyzeException($"Distance Method {Distance.DisplayName} has failed", e);
             }
         }
 
         public override void Train(IEnumerable<Document> knownDocuments)
         {
-            this.knownDocuments = knownDocuments.ToLookup(x => x.Author!);
-            knownAbsoluteHistograms = knownDocuments.ToDictionary(x => x, x => new AbsoluteHistogram(x));
+            var documents = knownDocuments as Document[] ?? knownDocuments.ToArray();
+            this.knownDocuments = documents.ToLookup(x => x.Author!);
+            knownAbsoluteHistograms = documents.ToDictionary(x => x, x => new AbsoluteHistogram(x));
             knownCentroids = knownAbsoluteHistograms.ToLookup(x => x.Key.Author!).ToDictionary(x => x.Key, x => AbsoluteHistogram.Centroid(x.Select(x => x.Value)));
         }
     }

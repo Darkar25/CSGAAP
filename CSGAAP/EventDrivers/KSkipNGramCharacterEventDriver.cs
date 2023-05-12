@@ -8,6 +8,6 @@ namespace CSGAAP.EventDrivers
 
         public override string ToolTipText => "Generate character grams with N characters with K characters skipped between each character";
 
-        public override EventSet CreateEventSet(string text) => TransformToKSkipNGram(new CharacterEventDriver().CreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => TransformToKSkipNGram(new CharacterEventDriver().CreateEventSet(text));
     }
 }

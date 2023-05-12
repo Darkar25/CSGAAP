@@ -1,7 +1,4 @@
-﻿using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-
-namespace CSGAAP.WordSegment
+﻿namespace CSGAAP.WordSegment
 {
     public class WordDictionary : Dictionary<string, int>
     {

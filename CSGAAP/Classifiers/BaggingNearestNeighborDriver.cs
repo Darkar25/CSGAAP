@@ -46,21 +46,17 @@ namespace CSGAAP.Classifiers
                     } catch(DistanceCalculationException e)
                     {
                         Log.Fatal(e, $"Distance {Distance.DisplayName} failed");
-                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed");
+                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed", e);
                     }
             if ((bool)this["score"])
             {
                 int samples = (int)this["samples"];
                 return res
-                    .ToStructEnumerable()
                     .OrderBy(x => x.Value)
-                    .Take(samples, x => x)
-                    .ToEnumerable()
+                    .Take(samples)
                     .GroupBy(x => x.Key)
-                    .ToStructEnumerable()
-                    .Select(x => new KeyValuePair<string,double>(x.Key, x.Count()/(double)samples), x => x)
-                    .OrderByDescending(x => x.Value)
-                    .ToEnumerable();
+                    .Select(x => new KeyValuePair<string, double>(x.Key, x.Count() / (double)samples))
+                    .OrderByDescending(x => x.Value);
             }
             return res.OrderBy(x => x.Value);
         }

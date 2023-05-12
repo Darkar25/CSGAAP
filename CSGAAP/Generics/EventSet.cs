@@ -1,8 +1,5 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
 using CSGAAP.Util;
-using StructLinq;
-using StructLinq.IEnumerable;
 
 namespace CSGAAP.Generics
 {
@@ -12,7 +9,7 @@ namespace CSGAAP.Generics
 
         public EventSet(IEnumerable<Event> events) => inner = events;
 
-        public override string ToString() => string.Join(", ", this);
+        public override string ToString() => string.Join(", ", inner);
         public override bool Equals(object? obj) => obj is EventSet e && inner.Equals(e.inner);
         public override int GetHashCode() => inner.GetHashCode();
 

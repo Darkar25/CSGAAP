@@ -1,5 +1,4 @@
 ﻿using CSGAAP.Generics;
-using CSGAAP.Util;
 using StructLinq;
 
 namespace CSGAAP.EventCullers

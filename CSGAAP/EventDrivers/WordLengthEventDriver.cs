@@ -11,6 +11,6 @@ namespace CSGAAP.EventDrivers
 
         public override string LongDescription => "Lengths (in characters) of Word-Events";
 
-        public override EventSet CreateEventSet(string text) => new(base.CreateEventSet(text).Select(x => new Event(x.Data.Length.ToString(), this)));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(base.CreateEventSet(text).Select(x => new Event(new ReadOnlyMemory<char>(x.Data.Length.ToString().ToCharArray()), this)));
     }
 }

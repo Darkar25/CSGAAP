@@ -2,7 +2,6 @@
 using CSGAAP.Generics;
 using CSGAAP.Util;
 using Serilog;
-using System.Security.AccessControl;
 
 namespace CSGAAP.Classifiers
 {
@@ -27,7 +26,7 @@ namespace CSGAAP.Classifiers
                     catch (DistanceCalculationException e)
                     {
                         Log.Fatal(e, $"Distance {Distance.DisplayName} failed");
-                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed");
+                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed", e);
                     }
                 })
                 .OrderBy(x => x.Value);

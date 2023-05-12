@@ -7,7 +7,7 @@
             int targetLength = dict.MaxWordLength;
             while (sentence.Length > 0)
             {
-                string tempStr = sentence[..targetLength].ToString();
+                string tempStr = sentence[..targetLength];
                 if (dict.ContainsKey(tempStr) || targetLength == 1)
                 {
                     yield return tempStr;

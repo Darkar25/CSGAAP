@@ -1,5 +1,4 @@
 ﻿using CSGAAP.Generics;
-using CSGAAP.Util;
 
 namespace CSGAAP.EventDrivers
 {
@@ -335,10 +334,10 @@ namespace CSGAAP.EventDrivers
         public override string DisplayName => "Word stems w/ Irregular";
         public override string ToolTipText => "Word stems from the Porter Stemmer with ability to handle irregular nouns and verbs";
 
-        public override EventSet CreateEventSet(string text) => new(base.CreateEventSet(text).Select(x => x switch
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(base.CreateEventSet(text).Select(x => x switch
             {
-                _ when verbs.TryGetValue(x.ToString(), out var verb) => new Event(verb, this),
-                _ when nouns.TryGetValue(x.ToString(), out var noun) => new Event(noun, this),
+                _ when verbs.TryGetValue(x.ToString(), out var verb) => new(new ReadOnlyMemory<char>(verb.ToCharArray()), this),
+                _ when nouns.TryGetValue(x.ToString(), out var noun) => new(new ReadOnlyMemory<char>(noun.ToCharArray()), this),
                 _ => x
             }));
     }

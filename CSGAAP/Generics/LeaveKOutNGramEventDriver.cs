@@ -41,7 +41,7 @@ namespace CSGAAP.Generics
                         .Take(n)
                         .Select(x => x.ToString())
                         .ToArray(), k)
-                    .Select(x => new Event("[" + string.Join(", ", x) + "]", this)));
+                    .Select(x => new Event(new ReadOnlyMemory<char>(("[" + string.Join(", ", x) + "]").ToCharArray()), this)));
             
             return new(events);
         }
@@ -57,18 +57,17 @@ namespace CSGAAP.Generics
             return res.Distinct(new ArrayComparer<string>());
         }
 
-        private IEnumerable<string[]> ReduceList(string[] list)
+        private IEnumerable<string[]> ReduceList(IReadOnlyList<string> list)
         {
-            for (int i = 0; i < list.Length; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                List<string> current = new(list.Length - 1);
+                List<string> current = new(list.Count - 1);
                 for (int j = 0; j < i; j++)
                     current.Add(list[j]);
-                for (int j = i + 1; j < list.Length; j++)
+                for (int j = i + 1; j < list.Count; j++)
                     current.Add(list[j]);
                 yield return current.ToArray();
             }
-            yield break;
         }
     }
 }

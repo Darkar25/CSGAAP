@@ -1,5 +1,7 @@
 ﻿using CSGAAP.Generics;
+using IKVM.Runtime.Extensions;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CSGAAP.Util
 {
@@ -31,8 +33,33 @@ namespace CSGAAP.Util
 
         public static bool operator !=(Event left, Event right) => !(left == right);
     }*/
+
+    /*[DebuggerDisplay("{Data} {EventDriver}")]
+    public readonly record struct Event(ReadOnlySpan<char> Data, EventDriver EventDriver) {
+        public override readonly string ToString() => Data;
+    }*/
     [DebuggerDisplay("{Data} {EventDriver}")]
-    public record struct Event(string Data, EventDriver EventDriver) {
-        public override string ToString() => Data;
+    public readonly struct Event
+    {
+        public readonly ReadOnlyMemory<char> Data;
+        public readonly EventDriver EventDriver;
+
+        public override string ToString() => Data.ToString();
+
+        public override bool Equals([NotNullWhen(true)] object? obj) => obj is Event other && this == other;
+
+        public override int GetHashCode() => Data.Span.GetHashCodeExtension();
+
+        public static bool operator ==(Event left, Event right) => left.Data.Equals(right.Data) || left.Data.Span.SequenceEqual(right.Data.Span);
+
+        public static bool operator !=(Event left, Event right) => !(left == right);
+
+        public Event(ReadOnlyMemory<char> data, EventDriver eventDriver) {
+            this.Data = data;
+            this.EventDriver = eventDriver;
+        }
+
+        [Obsolete("FOR TESTING PURPOSES ONLY!!!")]
+        public Event(string data, EventDriver eventDriver) : this(new ReadOnlyMemory<char>(data.ToCharArray()), eventDriver) { }
     }
 }

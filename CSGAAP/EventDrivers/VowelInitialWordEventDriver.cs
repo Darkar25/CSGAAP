@@ -8,8 +8,8 @@ namespace CSGAAP.EventDrivers
 
         public override string ToolTipText => "Words beginning with A, E, I, O, U (or lowercase equivalent)";
 
-        private const string vowels = "aeiouyAEIOUY";
+        private const string Vowels = "aeiouyAEIOUY";
 
-        public override EventSet CreateEventSet(string text) => new(base.CreateEventSet(text).Where(x => vowels.Contains(x.Data[0])));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(base.CreateEventSet(text).Where(x => Vowels.Contains(x.Data.Span[0])));
     }
 }

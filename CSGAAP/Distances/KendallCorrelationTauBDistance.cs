@@ -1,6 +1,5 @@
 ﻿using CSGAAP.Generics;
 using CSGAAP.Util;
-using StructLinq;
 
 namespace CSGAAP.Distances
 {
@@ -18,14 +17,17 @@ namespace CSGAAP.Distances
 
         private static double TauDistance(IEnumerable<KeyValuePair<Event, double>> unknown, IEnumerable<KeyValuePair<Event, double>> known)
         {
-            var (unknownRanks, unknownTies) = Utils.RankEventsWithTies(unknown.OrderByDescending(x => x.Value));
-            var (knownRanks, knownTies) = Utils.RankEventsWithTies(known.OrderByDescending(x => x.Value));
-            var allEvents = unknown.Concat(known).DistinctBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+            var unknowns = unknown as KeyValuePair<Event, double>[] ?? unknown.ToArray();
+            var (unknownRanks, unknownTies) = Utils.RankEventsWithTies(unknowns.OrderByDescending(x => x.Value));
+            var knowns = known as KeyValuePair<Event, double>[] ?? known.ToArray();
+            var (knownRanks, knownTies) = Utils.RankEventsWithTies(knowns.OrderByDescending(x => x.Value));
+            var allEvents = unknowns.Concat(knowns).DistinctBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
             var ranks = allEvents.Select(x => new KeyValuePair<int, int>(
                 unknownRanks.TryGetValue(x.Key, out var urv) ? urv : unknownRanks.Count + 1,
                 knownRanks.TryGetValue(x.Key, out var krv) ? krv : knownRanks.Count + 1));
-            var y = ranks.Select(x => x.Value).ToArray();
-            ranks = ranks.Order(new RankComparer());
+            var ranks2 = ranks as KeyValuePair<int, int>[] ?? ranks.ToArray();
+            var y = ranks2.Select(x => x.Value).ToArray();
+            ranks = ranks2.Order(new RankComparer());
             var ties = 0;
             List<int> pairTies = new();
             using(var enumerator = ranks.GetEnumerator())
@@ -44,7 +46,7 @@ namespace CSGAAP.Distances
             var n1 = unknownTies.Sum(x => x * (x - 1d) / 2d);
             var n2 = knownTies.Sum(x => x * (x - 1d) / 2d);
             var n3 = pairTies.Sum(x => x * (x - 1d) / 2d);
-            return 1 - ((n0 - n1 - n2 + n3 - 2 * Swaps(y)) / Math.Sqrt((n0 - n1) * (n0 - n2)));
+            return 1 - (n0 - n1 - n2 + n3 - 2 * Swaps(y)) / Math.Sqrt((n0 - n1) * (n0 - n2));
         }
 
         private static int Swaps(int[] list)

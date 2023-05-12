@@ -31,7 +31,7 @@ namespace CSGAAP.EventDrivers
                 41, 42, 43, 44, 45, 46, 47, 48, 49, 50);
         }
 
-        public override EventSet CreateEventSet(string text) {
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) {
             int m = (int)this["M"];
             int n = (int)this["N"];
             if (n < 0) n = int.MaxValue;

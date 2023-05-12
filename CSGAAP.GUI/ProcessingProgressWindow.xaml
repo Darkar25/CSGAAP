@@ -9,7 +9,8 @@
         SizeToContent="WidthAndHeight"
         ResizeMode="CanResizeWithGrip"
         Closing="Window_Closing"
-        ContentRendered="Window_ContentRendered">
+        ContentRendered="Window_ContentRendered"
+        WindowStartupLocation="CenterOwner">
     <StackPanel Margin="8">
         <Label Content="Please, wait. Your documents are being processed..."/>
         <Button Content="Cancel" Name="cancel" Click="cancel_Click" HorizontalAlignment="Right"/>

@@ -14,9 +14,9 @@ namespace CSGAAP.Distances
             var h2s = h2.UniqueEvents.ToStructEnumerable();
             return 1d - h1s
             .Intersect(h2s)
-            .Count(x => x) / (double)(h1s
-            .Union(h2s)
-            .Count(x => x));
+            .Count(x => x) / (double)h1s
+                .Union(h2s)
+                .Count(x => x);
         }
     }
 }

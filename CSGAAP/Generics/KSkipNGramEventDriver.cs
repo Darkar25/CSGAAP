@@ -45,7 +45,7 @@ namespace CSGAAP.Generics
                     gramTracker += k + 1;
                 }
 
-                events.Add(new(gram.Trim(), this));
+                events.Add(new(new ReadOnlyMemory<char>(gram.Trim().ToCharArray()), this));
             }
 
             return new(events);

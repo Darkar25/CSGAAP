@@ -1,9 +1,4 @@
-﻿using CSGAAP.Languages;
-using CSGAAP.Util;
-using StructLinq;
-using StructLinq.IEnumerable;
-
-namespace CSGAAP.Generics
+﻿namespace CSGAAP.Generics
 {
     public abstract class FilterEventCuller : EventCuller
     {

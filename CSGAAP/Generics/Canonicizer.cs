@@ -1,5 +1,4 @@
 ﻿using CSGAAP.Util;
-using System.Reflection;
 
 namespace CSGAAP.Generics
 {

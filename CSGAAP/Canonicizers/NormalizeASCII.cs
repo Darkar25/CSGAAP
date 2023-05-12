@@ -1,6 +1,4 @@
 ﻿using CSGAAP.Generics;
-using System.Text;
-using System.Linq;
 
 namespace CSGAAP.Canonicizers
 {

@@ -1,17 +1,11 @@
 ﻿using CSGAAP.Generics;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CSGAAP.Util
 {
     public class AbsoluteHistogram : IHistogram
     {
-        private readonly ReadOnlyDictionary<Event, int> histogram;
-        private readonly ReadOnlyDictionary<EventDriver, int> totals;
+        private readonly Dictionary<Event, int> histogram;
+        private readonly Dictionary<EventDriver, int> totals;
 
         public IEnumerable<Event> UniqueEvents => histogram.Keys;
 
@@ -19,7 +13,7 @@ namespace CSGAAP.Util
 
         public bool Contains(Event @event) => histogram.ContainsKey(@event);
 
-        public double NormalzedFrequency(Event @event) => RelativeFrequency(@event) * 100_000;
+        public double NormalizedFrequency(Event @event) => RelativeFrequency(@event) * 100_000;
 
         public double RelativeFrequency(Event @event)
         {
@@ -28,30 +22,31 @@ namespace CSGAAP.Util
             return 0.0;
         }
 
-        private AbsoluteHistogram(IDictionary<Event, int> histogram, IDictionary<EventDriver, int> totals)
+        private AbsoluteHistogram(Dictionary<Event, int> histogram, Dictionary<EventDriver, int> totals)
         {
-            this.histogram = new(histogram);
-            this.totals = new(totals);
+            this.histogram = histogram;
+            this.totals = totals;
         }
 
         public AbsoluteHistogram(Document document)
         {
-            totals = new(document.EventSets
-                .ToDictionary(x => x.Key, x => x.Value.Count()));
-            histogram = new(document.EventSets
+            totals = document.EventSets
+                .ToDictionary(x => x.Key, x => x.Value.Count());
+            histogram = document.EventSets
                 .SelectMany(x => x.Value)
                 .GroupBy(x => x)
                 .ToDictionary(x => x.Key, x => x
-                    .Count()));
+                    .Count());
         }
 
         public static AbsoluteHistogram Centroid(IEnumerable<AbsoluteHistogram> histograms)
         {
-            var tmp1 = histograms
+            var absoluteHistograms = histograms as AbsoluteHistogram[] ?? histograms.ToArray();
+            var tmp1 = absoluteHistograms
                 .SelectMany(x => x.histogram)
                 .ToLookup(x => x.Key, x => x.Value)
                 .ToDictionary(x => x.Key, x => x.Sum());
-            var tmp2 = histograms
+            var tmp2 = absoluteHistograms
                 .SelectMany(x => x.totals)
                 .ToLookup(x => x.Key, x => x.Value)
                 .ToDictionary(x => x.Key, x => x.Sum());

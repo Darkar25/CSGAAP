@@ -8,6 +8,6 @@ namespace CSGAAP.EventDrivers
 
         public override string ToolTipText => "The words in each ngram are alphabetically sorted";
 
-        public override EventSet CreateEventSet(string text) => TransformToNGram(new NaiveWordEventDriver().CreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => TransformToNGram(new NaiveWordEventDriver().CreateEventSet(text));
     }
 }

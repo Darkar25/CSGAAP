@@ -23,7 +23,7 @@ namespace CSGAAP.EventDrivers
             if (e.PropertyName == "Language") PropertyChanged?.Invoke(this, new(nameof(ShowInGUI)));
         }
 
-        public override EventSet CreateEventSet(string text) {
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) {
             EventSet raw = base.CreateEventSet(text);
             Stemmer theStemmer = new();
 
@@ -45,7 +45,7 @@ namespace CSGAAP.EventDrivers
                         b[ii] = char.ToUpper(b[ii]);
 
                 // and, finally, add result to new EventSet
-                return new Event(new string(b, 0, theStemmer.ResultLength), this);
+                return new Event(new ReadOnlyMemory<char>(b, 0, theStemmer.ResultLength), this);
             }));
         }
 
@@ -128,7 +128,7 @@ namespace CSGAAP.EventDrivers
              * faster.
              */
 
-            public void Add(char[] w, int wLen)
+            public void Add(IReadOnlyList<char> w, int wLen)
             {
                 if (i + wLen >= b.Length)
                 {

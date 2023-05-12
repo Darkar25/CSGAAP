@@ -1,6 +1,5 @@
 ﻿using CSGAAP.Generics;
 using CSGAAP.Util;
-using System.Text.RegularExpressions;
 
 namespace CSGAAP.EventDrivers
 {
@@ -9,20 +8,16 @@ namespace CSGAAP.EventDrivers
         public override string DisplayName => "First Word In Sentence";
         public override string ToolTipText => DisplayName;
 
-        public override EventSet CreateEventSet(string text) => new(InternalCreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(InternalCreateEventSet(text));
 
-        private IEnumerable<Event> InternalCreateEventSet(string text)
+        private IEnumerable<Event> InternalCreateEventSet(ReadOnlyMemory<char> text)
         {
             foreach (var s in base.CreateEventSet(text))
             {
-                var words = WordRegex().Split(s.ToString());
-                if (words.Length > 0)
-                    yield return new(words[0], this);
+                var index = s.Data.Span.IndexOf(' ');
+                if (index > 0)
+                    yield return new(s.Data[..index], this);
             }
-            yield break;
         }
-
-        [GeneratedRegex("\\s+")]
-        private static partial Regex WordRegex();
     }
 }

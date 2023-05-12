@@ -11,6 +11,6 @@ namespace CSGAAP.EventDrivers
 
         public override bool ShowInGUI => false;
 
-        public override EventSet CreateEventSet(string text) => new(new Event[] { new Event(text, this) });
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => new(new Event[] { new(text, this) });
     }
 }

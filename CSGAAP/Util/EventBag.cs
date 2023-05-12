@@ -1,6 +1,4 @@
-﻿using CSGAAP.Generics;
-
-namespace CSGAAP.Util
+﻿namespace CSGAAP.Util
 {
     public class EventBag : Bag<Event>
     {

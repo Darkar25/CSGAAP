@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
+#pragma warning disable CS0618 // Тип или член устарел
 
 using CSGAAP.Canonicizers;
 using System.Text;

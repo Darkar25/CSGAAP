@@ -24,7 +24,6 @@ namespace CSGAAP.Canonicizers
 
         public override string Process(string text)
         {
-            Random random = new();
             int percentErrors = (int)this["percenterror"];
             int numChanges = (int)((percentErrors / 100.0) * text.Length);
 
@@ -34,11 +33,11 @@ namespace CSGAAP.Canonicizers
 
             for (int i = 0; i < numChanges; i++)
             {
-                int changePos = random.Next(ret.Length);
+                int changePos = Random.Shared.Next(ret.Length);
                 if ((ret[changePos] == ' ') || (ret[changePos] == '\t') || (ret[changePos] == '\n'))
-                    ret[changePos] = new char[] { ' ', '\t', '\n' }[random.Next(3)];
+                    ret[changePos] = " \t\n"[Random.Shared.Next(3)];
                 else
-                    ret[changePos] = (char)(random.Next(26) + 'A');
+                    ret[changePos] = (char)(Random.Shared.Next(26) + 'A');
             }
             return ret.ToString();
         }

@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
+#pragma warning disable CS0618 // Тип или член устарел
 
 using CSGAAP.Distances;
 using CSGAAP.Generics;
@@ -13,6 +14,7 @@ public class DistanceFunctions
     [Test]
     public void AngularSeparation()
     {
+
         var events = new Event[] {
                 new("one", null),
                 new("two", null),

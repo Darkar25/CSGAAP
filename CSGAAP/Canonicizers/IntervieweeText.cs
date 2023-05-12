@@ -20,12 +20,12 @@ namespace CSGAAP.Canonicizers
 
             while (true)
             {
-                int start = text[(end + 3)..].IndexOf("<B>");
+                int start = text[(end + 3)..].IndexOf("<B>", StringComparison.Ordinal);
 
                 if (start == -1)
                     return ret.ToString();
 
-                end = text[start..].IndexOf("</B>");
+                end = text[start..].IndexOf("</B>", StringComparison.Ordinal);
 
                 ret.Append($"{ret} {text[(start + 3)..end]} ");
             }

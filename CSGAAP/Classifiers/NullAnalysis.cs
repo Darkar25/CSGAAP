@@ -13,9 +13,8 @@ namespace CSGAAP.Classifiers
         public override IEnumerable<KeyValuePair<string, double>> Analyze(Document unknownDocument)
         {
             Log.Information("--- Unknown Event Set ---");
-            foreach (var set in unknownDocument.EventSets.Values)
-                foreach (var e in set)
-                    Log.Information(e + " *** ");
+            foreach (var e in unknownDocument.EventSets.Values.SelectMany(set => set))
+                Log.Information(e + " *** ");
             return new[] { new KeyValuePair<string, double>("No analysis performed.\n", 0) };
         }
 
@@ -25,9 +24,8 @@ namespace CSGAAP.Classifiers
             foreach(var d in knownDocuments)
             {
                 Log.Information($"--- Known Event Set #{i++} ---");
-                foreach (var set in d.EventSets.Values)
-                    foreach (var e in set)
-                        Log.Information(e + " *** ");
+                foreach (var e in d.EventSets.Values.SelectMany(set => set))
+                    Log.Information(e + " *** ");
             }
         }
     }

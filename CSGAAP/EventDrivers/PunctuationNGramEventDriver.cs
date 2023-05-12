@@ -8,6 +8,6 @@ namespace CSGAAP.EventDrivers
 
         public override string ToolTipText => "Sliding windows of punctuation.";
 
-        public override EventSet CreateEventSet(string text) => TransformToNGram(new PunctuationEventDriver().CreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => TransformToNGram(new PunctuationEventDriver().CreateEventSet(text));
     }
 }

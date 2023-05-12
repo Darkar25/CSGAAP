@@ -1,6 +1,5 @@
 ﻿using CSGAAP.Util;
 using System.Collections.ObjectModel;
-using System.Globalization;
 
 namespace CSGAAP.Generics
 {

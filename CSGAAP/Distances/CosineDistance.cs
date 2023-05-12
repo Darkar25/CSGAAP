@@ -21,15 +21,15 @@ namespace CSGAAP.Distances
 
             foreach(var e in events)
             {
-                var uNormFreq = h1.NormalzedFrequency(e);
-                var kNormFreq = h2.NormalzedFrequency(e);
+                var uNormFreq = h1.NormalizedFrequency(e);
+                var kNormFreq = h2.NormalizedFrequency(e);
 
                 distance += uNormFreq * kNormFreq;
                 h1Magnitude += uNormFreq * uNormFreq;
                 h2Magnitude += kNormFreq * kNormFreq;
             }
 
-            return Math.Abs((distance / Math.Sqrt(h1Magnitude * h2Magnitude)) - 1);
+            return Math.Abs(distance / Math.Sqrt(h1Magnitude * h2Magnitude) - 1);
         }
     }
 }

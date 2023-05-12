@@ -15,7 +15,7 @@ namespace CSGAAP.Classifiers
             var em = new EventMap(unknownDocument);
             Log.Information("--- Unknown Event Set ---");
             foreach (var e in em.UniqueEvents)
-                Log.Information($"'{e.Data.Replace("'", "\\'")}','{em.RelativeFrequency(e)}',");
+                Log.Information($"'{e.ToString().Replace("'", "\\'")}','{em.RelativeFrequency(e)}',");
             return new[] { new KeyValuePair<string, double>("No analysis performed.\n", 0) };
         }
 
@@ -27,7 +27,7 @@ namespace CSGAAP.Classifiers
                 var em = new EventMap(d);
                 Log.Information($"--- Known Event Set #{i++} ---");
                 foreach (var e in em.UniqueEvents)
-                    Log.Information($"'{e.Data.Replace("'", "\\'")}','{em.RelativeFrequency(e)}',");
+                    Log.Information($"'{e.ToString().Replace("'", "\\'")}','{em.RelativeFrequency(e)}',");
             }
         }
     }

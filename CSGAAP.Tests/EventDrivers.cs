@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
+#pragma warning disable CS0618 // Тип или член устарел
 
 using CSGAAP.EventDrivers;
 using CSGAAP.Generics;
@@ -14,7 +15,7 @@ namespace CSGAAP.Tests
         {
             string text = "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz.";
             CharacterEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             var tmp = new Event[]
             {
                 new("a", eventDriver),
@@ -58,7 +59,7 @@ namespace CSGAAP.Tests
             string text = "abcdefghijklmnopqrstuvwxyz .";
             CharacterNGramEventDriver eventDriver = new();
             eventDriver["N"] = 2;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             var tmp = new Event[]
             {
                 new("ab", eventDriver),
@@ -100,7 +101,7 @@ namespace CSGAAP.Tests
             string text = "abcdefghijklmnopqrstuvwxyz .";
             CharacterNGramEventDriver eventDriver = new();
             eventDriver["N"] = 3;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             var tmp = new Event[]
             {
                 new("abc", eventDriver),
@@ -141,7 +142,7 @@ namespace CSGAAP.Tests
             string text = "abcdefghijklmnopqrstuvwxyz .";
             CharacterNGramEventDriver eventDriver = new();
             eventDriver["N"] = 4;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             var tmp = new Event[]
             {
                 new("abcd", eventDriver),
@@ -181,7 +182,7 @@ namespace CSGAAP.Tests
             string text = "We hold these truths to be self-evident,\n\"My phone # is 867-5309; don't forget it!\" she said.\n\t\t\"I won't,\" \t he grumbled.\n";
 
             NaiveWordEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("We", eventDriver),
@@ -216,7 +217,7 @@ namespace CSGAAP.Tests
             string text = "sir I send a rhyme excelling\nin sacred truth and rigid spelling\nnumerical sprites elucidate\nfor me the lexicons full weight\nif nature gain who can complain\ntho dr johnson fulminate";
 
             NullEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("sir I send a rhyme excelling\nin sacred truth and rigid spelling\nnumerical sprites elucidate\nfor me the lexicons full weight\nif nature gain who can complain\ntho dr johnson fulminate", eventDriver)
@@ -233,7 +234,7 @@ namespace CSGAAP.Tests
             RareWordsEventDriver eventDriver = new();
             eventDriver["M"] = 2;
             eventDriver["N"] = 2;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("The", eventDriver),
@@ -249,7 +250,7 @@ namespace CSGAAP.Tests
             string text = "Hello, Dr. Jones!  I'm not.feeling.too well today.  What's the matter Mr. Adams?  My stomach hurts, or A.K.A, cramps.";
 
             FirstWordInSentenceEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("Hello,", eventDriver),
@@ -267,7 +268,7 @@ namespace CSGAAP.Tests
             string text = "a aah Aaron aback abacus abandon abandoned zones zoning zoo zoologist zoology zoom zooming zooms zucchini Zurich";
 
             FreqEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("16.18", eventDriver),
@@ -300,7 +301,7 @@ namespace CSGAAP.Tests
             RareWordsEventDriver eventDriver = new();
             eventDriver["M"] = 1;
             eventDriver["N"] = 2;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("be", eventDriver),
@@ -324,7 +325,7 @@ namespace CSGAAP.Tests
             RareWordsEventDriver eventDriver = new();
             eventDriver["M"] = 1;
             eventDriver["N"] = 1;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("Quick", eventDriver),
@@ -347,7 +348,7 @@ namespace CSGAAP.Tests
             KSkipNGramCharacterEventDriver eventDriver = new();
             eventDriver["K"] = 3;
             eventDriver["N"] = 4;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("L m s d", eventDriver),
@@ -379,7 +380,7 @@ namespace CSGAAP.Tests
             KSkipNGramWordEventDriver eventDriver = new();
             eventDriver["K"] = 3;
             eventDriver["N"] = 4;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("Lorem amet, Maecenas Fusce", eventDriver),
@@ -426,7 +427,7 @@ Where he still held the cash as an asset,
 And as for the asset, Manhasset.";
 
             LineLengthEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("7", eventDriver),
@@ -468,7 +469,7 @@ And as for the asset, Manhasset.";
             MNLetterWordEventDriver eventDriver = new();
             eventDriver["M"] = 3;
             eventDriver["N"] = 4;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("aaa", eventDriver),
@@ -503,7 +504,7 @@ upon was were what when which who will with would your
 distractor fail eliminate megafail lose gark hoser shimatta";
 
             MWFunctionWordsEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("a", eventDriver),
@@ -587,7 +588,7 @@ distractor fail eliminate megafail lose gark hoser shimatta";
             string text = "a aah Aaron aback abacus abandon abandoned zones zoning zoo zoologist zoology zoom zooming zooms zucchini Zurich";
 
             NamingTimeEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("662.09", eventDriver),
@@ -675,7 +676,7 @@ distractor fail eliminate megafail lose gark hoser shimatta";
             string text = "a aah Aaron aback abacus abandon abandoned zones zoning zoo zoologist zoology zoom zooming zooms zucchini Zurich";
 
             ReactionTimeEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("798.92", eventDriver),
@@ -713,7 +714,7 @@ distractor fail eliminate megafail lose gark hoser shimatta";
             RareWordsEventDriver eventDriver = new();
             eventDriver["M"] = 4;
             eventDriver["N"] = 5;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("four", eventDriver),
@@ -736,7 +737,7 @@ distractor fail eliminate megafail lose gark hoser shimatta";
             string text = "Hello, Dr. Jones!  I'm not.feeling.too well today.  What's the matter Mr. Adams?  My stomach hurts, A.K.A, cramps.";
 
             SentenceEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("Hello, Dr. Jones!", eventDriver),
@@ -754,7 +755,7 @@ distractor fail eliminate megafail lose gark hoser shimatta";
             string text = "Hello, Dr. Jones!  I'm not.feeling.too well today.  What's the matter Mr. Adams? My stomach hurts, or A.K.A, cramps.";
 
             SentenceLengthWithWordsEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("3", eventDriver),
@@ -778,7 +779,7 @@ distractor fail eliminate megafail lose gark hoser shimatta";
                             "_none ?of #these *should 1be 4included +in ^output";
 
             VowelInitialWordEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("alpha", eventDriver),
@@ -808,7 +809,7 @@ The lamb was sure to go.";
 
             WordNGramEventDriver eventDriver = new();
             eventDriver["N"] = 2;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("[Mary, had]", eventDriver),
@@ -847,7 +848,7 @@ The lamb was sure to go.";
 
             WordNGramEventDriver eventDriver = new();
             eventDriver["N"] = 3;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("[Mary, had, a]", eventDriver),
@@ -882,7 +883,7 @@ The lamb was sure to go.";
 
             WordNGramEventDriver eventDriver = new();
             eventDriver["N"] = 4;
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("[Mary, had, a, little]", eventDriver),
@@ -911,7 +912,7 @@ if nature gain who can complain
 tho dr johnson fulminate";
 
             WordLengthEventDriver eventDriver = new();
-            EventSet sampleEventSet = eventDriver.CreateEventSet(text);
+            EventSet sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             EventSet expectedEventSet = new(new Event[]
             {
                 new("3", eventDriver),
@@ -951,7 +952,7 @@ tho dr johnson fulminate";
 
             text = "`the' quick brown \"fox\" isn't very? dumb!";
 
-            sampleEventSet = eventDriver.CreateEventSet(text);
+            sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
             expectedEventSet = new(new Event[]
             {
                 new("5", eventDriver),
@@ -967,7 +968,7 @@ tho dr johnson fulminate";
 
             text = "\t         \t\n";
 
-            sampleEventSet = eventDriver.CreateEventSet(text);
+            sampleEventSet = eventDriver.CreateEventSet(new(text.ToCharArray()));
 
             CollectionAssert.AreEqual(Array.Empty<Event>(), sampleEventSet);
         }

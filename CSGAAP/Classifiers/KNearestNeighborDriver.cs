@@ -3,7 +3,6 @@ using CSGAAP.Generics;
 using CSGAAP.Util;
 using Serilog;
 using StructLinq;
-using System.Linq;
 
 namespace CSGAAP.Classifiers
 {
@@ -25,7 +24,6 @@ namespace CSGAAP.Classifiers
 
         public override IEnumerable<KeyValuePair<string, double>> Analyze(Document unknownDocument)
         {
-            IHistogram unknownHistogram = new AbsoluteHistogram(unknownDocument);
             Ballot<string> ballot = new(new LastPickedComparator());
             var k = (int)this["k"];
             var res = knowns!
@@ -40,7 +38,7 @@ namespace CSGAAP.Classifiers
                     catch (DistanceCalculationException e)
                     {
                         Log.Fatal(e, $"Distance {Distance.DisplayName} failed");
-                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed");
+                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed", e);
                     }
                 }, x => x)
                 .OrderBy(x => x.Value)

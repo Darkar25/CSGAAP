@@ -9,6 +9,6 @@
 
         public int CompareTo(EventDriver? other) => DisplayName.CompareTo(other?.DisplayName);
 
-        public abstract EventSet CreateEventSet(string text);
+        public abstract EventSet CreateEventSet(ReadOnlyMemory<char> text);
     }
 }

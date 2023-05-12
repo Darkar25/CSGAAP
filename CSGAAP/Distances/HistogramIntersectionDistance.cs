@@ -13,13 +13,13 @@ namespace CSGAAP.Distances
                 .ToStructEnumerable()
                 .Union(h2.UniqueEvents
                     .ToStructEnumerable());
-            return 1 - (events
+            return 1 - events
                 .Select(x => Math.Min(h1.RelativeFrequency(x), h2.RelativeFrequency(x)), x => x)
                 .Sum(x => x) / Math.Min(events
                 .Select(h1.RelativeFrequency, x => x)
                 .Sum(x => x), events
                 .Select(h2.RelativeFrequency, x => x)
-                .Sum(x => x)));
+                .Sum(x => x));
         }
     }
 }

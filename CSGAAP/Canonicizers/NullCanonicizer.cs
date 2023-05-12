@@ -1,6 +1,5 @@
 ﻿using CSGAAP.Generics;
 using Serilog;
-using System;
 
 namespace CSGAAP.Canonicizers
 {

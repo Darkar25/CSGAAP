@@ -10,6 +10,6 @@ namespace CSGAAP.EventDrivers
 
         public override string LongDescription => "Groups of N successive words (using sliding window)";
 
-        public override EventSet CreateEventSet(string text) => TransformToNGram(new NaiveWordEventDriver().CreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => TransformToNGram(new NaiveWordEventDriver().CreateEventSet(text));
     }
 }

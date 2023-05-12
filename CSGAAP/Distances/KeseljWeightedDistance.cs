@@ -1,6 +1,5 @@
 ﻿using CSGAAP.Generics;
 using StructLinq;
-using System.Linq;
 
 namespace CSGAAP.Distances
 {
@@ -16,7 +15,7 @@ namespace CSGAAP.Distances
             {
                 var fa = h1.RelativeFrequency(x);
                 var fx = h2.RelativeFrequency(x);
-                return ((fa - fx) * (fa - fx)) / ((fa + fx) * (fa + fx));
+                return (fa - fx) * (fa - fx) / ((fa + fx) * (fa + fx));
             }) + h2.UniqueEvents.ToStructEnumerable().Except(h1s).Count(x => x);
         }
     }

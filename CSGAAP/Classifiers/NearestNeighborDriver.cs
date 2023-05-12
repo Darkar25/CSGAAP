@@ -15,7 +15,6 @@ namespace CSGAAP.Classifiers
 
         public override IEnumerable<KeyValuePair<string, double>> Analyze(Document unknownDocument)
         {
-            IHistogram unknownHistogram = new AbsoluteHistogram(unknownDocument);
             return knowns!
                 .ToStructEnumerable()
                 .Select(x => {
@@ -28,7 +27,7 @@ namespace CSGAAP.Classifiers
                     catch (DistanceCalculationException e)
                     {
                         Log.Fatal(e, $"Distance {Distance.DisplayName} failed");
-                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed");
+                        throw new AnalyzeException($"Distance {Distance.DisplayName} failed", e);
                     }
                 }, x => x)
                 .OrderBy(x => x.Value)

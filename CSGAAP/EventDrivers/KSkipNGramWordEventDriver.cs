@@ -8,6 +8,6 @@ namespace CSGAAP.EventDrivers
 
         public override string ToolTipText => "Generate word grams with N words with K words skipped between each word";
 
-        public override EventSet CreateEventSet(string text) => TransformToKSkipNGram(new NaiveWordEventDriver().CreateEventSet(text));
+        public override EventSet CreateEventSet(ReadOnlyMemory<char> text) => TransformToKSkipNGram(new NaiveWordEventDriver().CreateEventSet(text));
     }
 }
